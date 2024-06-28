@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://cp76scvu63tqm"]
+
+[ext_resource type="Script" path="res://Scripts/Menus/MainMenu.gd" id="1_wh6et"]
+
+[node name="MainMenu" type="CanvasLayer"]
+script = ExtResource("1_wh6et")
+
+[node name="c" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="StartButton" type="Button" parent="c"]
+layout_mode = 0
+offset_left = 438.0
+offset_top = 232.0
+offset_right = 803.0
+offset_bottom = 371.0
+text = "START"
+
+[connection signal="pressed" from="c/StartButton" to="." method="StartPressed"]

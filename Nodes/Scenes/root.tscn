@@ -1,0 +1,17 @@
+[gd_scene load_steps=5 format=3 uid="uid://dx4roj5vlwx4w"]
+
+[ext_resource type="Script" path="res://Scripts/SceneManager.gd" id="1_xerg1"]
+[ext_resource type="Script" path="res://Scripts/Menus/OptionsMenu.gd" id="2_3mokf"]
+[ext_resource type="PackedScene" uid="uid://x7pm81r0q7j6" path="res://Nodes/Scenes/game.tscn" id="2_5sgbr"]
+[ext_resource type="PackedScene" uid="uid://cp76scvu63tqm" path="res://Nodes/Scenes/main_menu.tscn" id="3_ji3a1"]
+
+[node name="Root" type="Node"]
+process_mode = 3
+script = ExtResource("1_xerg1")
+gameScene = ExtResource("2_5sgbr")
+menuScene = ExtResource("3_ji3a1")
+
+[node name="OptionsMenu" type="CanvasLayer" parent="."]
+script = ExtResource("2_3mokf")
+
+[node name="LoadScreen" type="CanvasLayer" parent="."]

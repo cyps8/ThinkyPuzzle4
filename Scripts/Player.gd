@@ -2,20 +2,41 @@ extends Area2D
 
 class_name Player
 
+var targetPosition: Vector2
+
+var moving = false
+
+func _ready():
+    targetPosition = position
+
 func _process(_dt):
-    if Input.is_action_just_pressed("Up"):
-        position.y -= 128
-    elif Input.is_action_just_pressed("Down"):
-        position.y += 128
-    elif Input.is_action_just_pressed("LUp"):
-        position.y -= 64
-        position.x -= 96
-    elif Input.is_action_just_pressed("RUp"):
-        position.y -= 64
-        position.x += 96
-    elif Input.is_action_just_pressed("LDown"):
-        position.y += 64
-        position.x -= 96
-    elif Input.is_action_just_pressed("RDown"):
-        position.y += 64
-        position.x += 96
+    if !moving:
+        var move = true
+        if Input.is_action_pressed("Up"):
+            targetPosition = Vector2(position.x, position.y - 80)
+        elif Input.is_action_pressed("Down"):
+            targetPosition = Vector2(position.x, position.y + 80)
+        elif Input.is_action_pressed("LUp"):
+            targetPosition = Vector2(position.x - 66, position.y - 40)
+        elif Input.is_action_pressed("RUp"):
+            targetPosition = Vector2(position.x + 66, position.y - 40)
+        elif Input.is_action_pressed("LDown"):
+            targetPosition = Vector2(position.x - 66, position.y + 40)
+        elif Input.is_action_pressed("RDown"):
+            targetPosition = Vector2(position.x + 66, position.y + 40)
+        else:
+            move = false
+        if move and !CheckForCollision():
+            moving = true
+            var tween: Tween = create_tween()
+            tween.tween_property(self, "position", targetPosition, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+            tween.tween_callback(func(): moving = false)
+
+func CheckForCollision():
+    var space_state = get_world_2d().direct_space_state
+    var query = PhysicsRayQueryParameters2D.create(position, targetPosition)
+    var result = space_state.intersect_ray(query)
+    if result:
+        return true
+    else:
+        return false

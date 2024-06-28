@@ -1,0 +1,33 @@
+[gd_scene load_steps=4 format=3 uid="uid://x7pm81r0q7j6"]
+
+[ext_resource type="Script" path="res://Scripts/Menus/GameManager.gd" id="1_42fuo"]
+[ext_resource type="PackedScene" uid="uid://ckbi0v8qkddb2" path="res://Nodes/Scenes/climb.tscn" id="1_gktcc"]
+[ext_resource type="Script" path="res://Scripts/Menus/Pause.gd" id="3_xsa8d"]
+
+[node name="Game" type="Node2D"]
+script = ExtResource("1_42fuo")
+
+[node name="Climb" parent="." instance=ExtResource("1_gktcc")]
+process_mode = 1
+
+[node name="Pause" type="CanvasLayer" parent="."]
+script = ExtResource("3_xsa8d")
+
+[node name="c" type="Control" parent="Pause"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ResumeButton" type="Button" parent="Pause/c"]
+layout_mode = 0
+offset_left = 656.0
+offset_top = 484.0
+offset_right = 885.0
+offset_bottom = 583.0
+text = "RESMUE
+"
+
+[connection signal="pressed" from="Pause/c/ResumeButton" to="Pause" method="BackButton"]
