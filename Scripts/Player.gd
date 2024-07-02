@@ -13,17 +13,17 @@ func _process(_dt):
     if !moving:
         var move = true
         if Input.is_action_pressed("Up"):
-            targetPosition = Vector2(position.x, position.y - 80)
+            targetPosition = Vector2(position.x, position.y - 20)
         elif Input.is_action_pressed("Down"):
-            targetPosition = Vector2(position.x, position.y + 80)
+            targetPosition = Vector2(position.x, position.y + 20)
         elif Input.is_action_pressed("LUp"):
-            targetPosition = Vector2(position.x - 66, position.y - 40)
+            targetPosition = Vector2(position.x - 17, position.y - 10)
         elif Input.is_action_pressed("RUp"):
-            targetPosition = Vector2(position.x + 66, position.y - 40)
+            targetPosition = Vector2(position.x + 17, position.y - 10)
         elif Input.is_action_pressed("LDown"):
-            targetPosition = Vector2(position.x - 66, position.y + 40)
+            targetPosition = Vector2(position.x - 17, position.y + 10)
         elif Input.is_action_pressed("RDown"):
-            targetPosition = Vector2(position.x + 66, position.y + 40)
+            targetPosition = Vector2(position.x + 17, position.y + 10)
         else:
             move = false
         if move and !CheckForCollision():
@@ -34,9 +34,7 @@ func _process(_dt):
 
 func CheckForCollision():
     var space_state = get_world_2d().direct_space_state
-    var query = PhysicsRayQueryParameters2D.create(position, targetPosition)
-    var result = space_state.intersect_ray(query)
-    if result:
-        return true
-    else:
-        return false
+    var query = PhysicsPointQueryParameters2D.new()
+    query.position = targetPosition
+    var result = space_state.intersect_point(query)
+    return !result.size() == 2
