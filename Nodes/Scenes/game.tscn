@@ -1,9 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://x7pm81r0q7j6"]
+[gd_scene load_steps=10 format=3 uid="uid://x7pm81r0q7j6"]
 
 [ext_resource type="Script" path="res://Scripts/Menus/GameManager.gd" id="1_42fuo"]
 [ext_resource type="PackedScene" uid="uid://ckbi0v8qkddb2" path="res://Nodes/Scenes/climb.tscn" id="1_gktcc"]
 [ext_resource type="Script" path="res://Scripts/Menus/Pause.gd" id="3_xsa8d"]
 [ext_resource type="AudioStream" uid="uid://b6dqwjh2wbvu1" path="res://Assets/Audio/mountain wind.ogg" id="4_jo5wr"]
+[ext_resource type="FontFile" uid="uid://dcxt4t277epr2" path="res://Assets/Fonts/olive standard.ttf" id="4_u70tu"]
+[ext_resource type="Script" path="res://Scripts/Menus/MusicSlider.gd" id="5_vc3b1"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_w0soc"]
+bg_color = Color(0.231373, 0.811765, 0.27451, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nlgq8"]
+bg_color = Color(0.482353, 0.964706, 0.74902, 1)
+
+[sub_resource type="Theme" id="Theme_wkqv8"]
+default_font = ExtResource("4_u70tu")
+HSlider/styles/grabber_area = SubResource("StyleBoxFlat_w0soc")
+HSlider/styles/grabber_area_highlight = SubResource("StyleBoxFlat_nlgq8")
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_42fuo")
@@ -12,6 +25,7 @@ script = ExtResource("1_42fuo")
 process_mode = 1
 
 [node name="Pause" type="CanvasLayer" parent="."]
+layer = 36
 script = ExtResource("3_xsa8d")
 
 [node name="c" type="Control" parent="Pause"]
@@ -21,18 +35,77 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("Theme_wkqv8")
+
+[node name="Panel" type="Panel" parent="Pause/c"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -633.0
+offset_top = -491.0
+offset_right = 623.0
+offset_bottom = 475.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="ResumeButton" type="Button" parent="Pause/c"]
-layout_mode = 0
-offset_left = 656.0
-offset_top = 484.0
-offset_right = 885.0
-offset_bottom = 583.0
-text = "RESMUE
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -114.0
+offset_top = -106.0
+offset_right = 115.0
+offset_bottom = -7.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_fonts/font = ExtResource("4_u70tu")
+theme_override_font_sizes/font_size = 24
+text = "RESUME
 "
+
+[node name="Label" type="Label" parent="Pause/c"]
+layout_mode = 0
+offset_left = 415.0
+offset_top = 216.0
+offset_right = 779.0
+offset_bottom = 314.0
+theme_override_font_sizes/font_size = 48
+text = "PAUSED"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Label2" type="Label" parent="Pause/c"]
+layout_mode = 0
+offset_left = 347.0
+offset_top = 488.0
+offset_right = 496.0
+offset_bottom = 586.0
+theme_override_font_sizes/font_size = 24
+text = "Music"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MusicSlider" type="HSlider" parent="Pause/c"]
+layout_mode = 0
+offset_left = 501.0
+offset_top = 510.0
+offset_right = 822.0
+offset_bottom = 563.0
+max_value = 1.0
+step = 0.1
+value = 0.7
+script = ExtResource("5_vc3b1")
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_jo5wr")
 autoplay = true
+bus = &"Music"
 
 [connection signal="pressed" from="Pause/c/ResumeButton" to="Pause" method="BackButton"]
+[connection signal="value_changed" from="Pause/c/MusicSlider" to="Pause/c/MusicSlider" method="ChangeValue"]

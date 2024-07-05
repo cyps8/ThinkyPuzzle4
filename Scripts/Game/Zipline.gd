@@ -25,6 +25,12 @@ func _ready():
 func _process(_dt):
 	line.points[0] = end1.global_position
 	line.points[1] = end2.global_position
+	if end1.global_position.y > end2.global_position.y:
+		end1.collision_layer = 0
+		end2.collision_layer = 1
+	else:
+		end1.collision_layer = 1
+		end2.collision_layer = 0
 
 func ZipFromEnd(end: Area2D) -> Vector2:
 	var otherEnd: Area2D
