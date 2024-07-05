@@ -1,9 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://dx4roj5vlwx4w"]
+[gd_scene load_steps=10 format=3 uid="uid://dx4roj5vlwx4w"]
 
 [ext_resource type="Script" path="res://Scripts/SceneManager.gd" id="1_xerg1"]
 [ext_resource type="Script" path="res://Scripts/Menus/OptionsMenu.gd" id="2_3mokf"]
 [ext_resource type="PackedScene" uid="uid://x7pm81r0q7j6" path="res://Nodes/Scenes/game.tscn" id="2_5sgbr"]
 [ext_resource type="PackedScene" uid="uid://cp76scvu63tqm" path="res://Nodes/Scenes/main_menu.tscn" id="3_ji3a1"]
+[ext_resource type="Script" path="res://Scripts/Menus/SoundPlayer.gd" id="5_omi86"]
+[ext_resource type="AudioStream" uid="uid://0v0t5dpkrr2q" path="res://Assets/Audio/hooves a.wav" id="6_rcdbk"]
+[ext_resource type="AudioStream" uid="uid://cgth5fxehmh51" path="res://Assets/Audio/stone slide.wav" id="7_lqevx"]
+[ext_resource type="AudioStream" uid="uid://dbg6csxcdhd2y" path="res://Assets/Audio/fallin.wav" id="8_rhbh5"]
+[ext_resource type="AudioStream" uid="uid://dy74x0iih575r" path="res://Assets/Audio/checkpoint get.wav" id="9_yabt6"]
 
 [node name="Root" type="Node"]
 process_mode = 3
@@ -15,3 +20,7 @@ menuScene = ExtResource("3_ji3a1")
 script = ExtResource("2_3mokf")
 
 [node name="LoadScreen" type="CanvasLayer" parent="."]
+
+[node name="SoundPlayer" type="Node" parent="."]
+script = ExtResource("5_omi86")
+sounds = Array[AudioStream]([ExtResource("6_rcdbk"), ExtResource("7_lqevx"), ExtResource("8_rhbh5"), ExtResource("9_yabt6")])

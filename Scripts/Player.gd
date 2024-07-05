@@ -26,6 +26,8 @@ func _ready():
 signal Reset
 
 func _process(_dt):
+	if Input.is_action_pressed("B") && Input.is_action_pressed("E") && Input.is_action_pressed("L") && Input.is_action_pressed("I") && Input.is_action_pressed("V"):
+		TriggerFlight()
 	if moving:
 		if fallingAnim:
 			$Sprite.rotation -= 15 * _dt
@@ -43,8 +45,9 @@ func _process(_dt):
 		Interact()
 	if !move && Input.is_action_just_pressed("Reset"):
 		ResetRN()
-	if move and !CheckForCollision():
+	if move and (canFly || !CheckForCollision()):
 		moving = true
+		AudioPlayer.ins.PlaySound(0, AudioPlayer.SoundType.SFX, 1, randf() * 0.4 + 0.8)
 		var tween: Tween = create_tween()
 		tween.tween_property(self, "position", targetPosition, 0.45).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		tween.tween_callback(func(): moving = false)
@@ -73,6 +76,7 @@ func Fall():
 	fallTween.tween_property(self, "position", targetPosition, 0.2 * fallDistance)
 	fallTween.tween_callback(func(): moving = false)
 	fallTween.tween_callback(func(): fallingAnim = false)
+	AudioPlayer.ins.PlaySound(2, AudioPlayer.SoundType.SFX, 1, 2.0 - fallDistance * 0.1)
 
 func FindFallTarget():
 	var space_state = get_world_2d().direct_space_state
@@ -164,6 +168,16 @@ func ArrowMove() -> bool:
 
 var areas: Array
 
+var canFly = false
+
+func TriggerFlight():
+	if !canFly:
+		canFly = true
+		get_tree().get_first_node_in_group("CanFly").visible = true
+		var tween:Tween = create_tween()
+		tween.tween_interval(5.0)
+		tween.tween_callback(func(): get_tree().get_first_node_in_group("CanFly").visible = false)
+
 func AddArea(area: Area2D):
 	areas.append(area)
 	if area.is_in_group("Save"):
@@ -172,7 +186,10 @@ func AddArea(area: Area2D):
 			var tween:Tween = create_tween()
 			tween.tween_interval(1.5)
 			tween.tween_callback(func(): get_tree().get_first_node_in_group("Checkpoint").visible = false)
+			AudioPlayer.ins.PlaySound(3)
 		resetPos = area.position
+	elif area.is_in_group("Fly"):
+		TriggerFlight()
 	else:
 		get_tree().get_first_node_in_group("Interact").visible = true
 
@@ -195,6 +212,9 @@ func Interact():
 			rotationTween.tween_property($Sprite, "rotation", 0.3, position.distance_to(targetPosition) * 0.005).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			rotationTween.tween_property($Sprite, "rotation", 0.0, position.distance_to(targetPosition) * 0.005).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 			rotationTween.tween_callback(func(): $Sprite.rotation = 0)
+			var soundTween: Tween = create_tween()
+			soundTween.tween_property($ZiplineSound, "volume_db", 0.0, position.distance_to(targetPosition) * 0.002)
+			tween.tween_callback(func(): $ZiplineSound.volume_db = -80.0)
 
 	elif areas[0] is Lever:
 		print("Pressed")

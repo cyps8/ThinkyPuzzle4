@@ -18,6 +18,7 @@ func ResetRN():
 
 func Pressed():
 	var tween: Tween = create_tween().set_parallel(true)
+	AudioPlayer.ins.PlaySound(1, AudioPlayer.SoundType.SFX, 1, randf() * 0.2 + 0.9)
 	if !moved:
 		tween.tween_property(targetSection, "position", targetSection.position + movement, 0.95).set_trans(Tween.TRANS_SINE).set_ease(Tween.EASE_IN_OUT)
 	else:
