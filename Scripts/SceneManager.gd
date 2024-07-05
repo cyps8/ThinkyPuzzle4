@@ -18,7 +18,7 @@ var loadingRef: CanvasLayer
 
 var currentSceneNode: Node = null
 
-var currentScene: Scene = Scene.GAME
+var currentScene: Scene = Scene.MENU
 
 func _ready():
 	optionsRef = get_node("OptionsMenu")
@@ -28,7 +28,7 @@ func _ready():
 	remove_child(loadingRef)
 
 	ins = self
-	ChangeScene(Scene.MENU)
+	ChangeScene(Scene.GAME)
 
 func ChangeScene(newScene: Scene):
 	if currentScene == newScene:

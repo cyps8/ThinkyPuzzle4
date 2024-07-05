@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://x7pm81r0q7j6"]
+[gd_scene load_steps=5 format=3 uid="uid://x7pm81r0q7j6"]
 
 [ext_resource type="Script" path="res://Scripts/Menus/GameManager.gd" id="1_42fuo"]
 [ext_resource type="PackedScene" uid="uid://ckbi0v8qkddb2" path="res://Nodes/Scenes/climb.tscn" id="1_gktcc"]
 [ext_resource type="Script" path="res://Scripts/Menus/Pause.gd" id="3_xsa8d"]
+[ext_resource type="AudioStream" uid="uid://b6dqwjh2wbvu1" path="res://Assets/Audio/mountain wind.ogg" id="4_jo5wr"]
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_42fuo")
@@ -29,5 +30,9 @@ offset_right = 885.0
 offset_bottom = 583.0
 text = "RESMUE
 "
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_jo5wr")
+autoplay = true
 
 [connection signal="pressed" from="Pause/c/ResumeButton" to="Pause" method="BackButton"]
